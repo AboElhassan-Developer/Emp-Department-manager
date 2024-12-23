@@ -1,0 +1,30 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add</h1>
+
+<form method="post"action="/Department/SaveAdd">
+    
+<div>
+    <label>Name</label>
+        <input name="Name" id="Name" value="@Model?.Name" type="text" class="form-check form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+    <div>
+        <label>ManagerName</label>
+        <input name="ManagerName" id="ManagerName" value="@Model?.ManagerName" type="text" class="form-check form-control" />
+        <span asp-validation-for="ManagerName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>Description</label>
+        <input name="Description" id="Description" value="@Model?.Description" type="text" class="form-check form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <input type="submit"value="Create"class="btn btn-primary"/>
+
+</form>
+<a href="/Department/Index">Back To List</a>

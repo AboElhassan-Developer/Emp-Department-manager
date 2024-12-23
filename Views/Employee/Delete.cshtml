@@ -1,0 +1,23 @@
+﻿@model Employee
+
+
+
+<h1>Delete Employee</h1>
+<p class="btn btn-danger">Are you Sure You Want To Delete This Employee?</p>
+
+@* <partial name="_EmpCard"  /> *@
+<div>
+    <h2>@Model.Name</h2>
+    <h2>@Model.Salary</h2>
+
+    <h2>@Model.Address</h2>
+    <h2>@Model.ImageURL</h2>
+    <h2>@Model.JobTitle</h2>
+    <h2>@Model.Department</h2>
+</div>
+
+
+<form method="post" action="/Employee/ConfirmDelete/@Model.Id">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "Employee")" class="btn btn-secondary">Cancel</a>
+</form>
