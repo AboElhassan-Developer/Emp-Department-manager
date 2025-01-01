@@ -1,0 +1,33 @@
+﻿@model ProjectMVC.ViewModel.EditDepartmentModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 style="color: skyblue" ;>Edit</h1>
+
+<form method="post" action="/Department/SaveEdit/@Model.Id">
+    <div>
+
+        @Html.LabelFor(e => e.Name)
+        @Html.TextBoxFor(e => e.Name,
+                 new { @class = "form form-control" })
+
+    </div>
+    <div>
+        <label>ManagerName</label>
+        <input type="text" value="@Model.ManagerName" id="ManagerName" name="ManagerName" class="form form-control" />
+        <span asp-validation-for="ManagerName" class="text-danger"></span>
+    </div>
+    
+   
+    <div>
+        <label>Description</label>
+        <input type="text" value="@Model.Description" id="Description" name="Description" class="form form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+  
+    <input type="submit" value="Save" class="btn btn-success" />
+    <input type="submit" value="Back" class="btn btn-success" />
+    
+</form>

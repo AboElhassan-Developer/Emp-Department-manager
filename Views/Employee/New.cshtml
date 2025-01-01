@@ -1,10 +1,10 @@
-﻿@model Employee
+﻿@model AddEmployeeModel
 @{
     ViewData["Title"] = "New";
     SelectList deptOptions = new SelectList(ViewBag.DeptList,"Id","Name");
 }
 
-<h1>New</h1>
+<h1 style="color: skyblue" ;>New Employee</h1>
 <form method="post"asp-action="SaveNew"asp-controller="Employee">
     <div>
         <label asp-for="Name"></label>

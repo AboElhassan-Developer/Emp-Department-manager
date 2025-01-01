@@ -7,7 +7,7 @@ using ProjectMVC.ViewModel;
 
 namespace ProjectMVC.Controllers
 {
-    [Authorize(Roles = "Admin")]  
+    [Authorize(Roles = "Admin")]
 
     public class RoleController : Controller
     {
@@ -17,21 +17,21 @@ namespace ProjectMVC.Controllers
             this.roleManager = roleManager;
         }
 
-       
+
 
         public IActionResult AddRole()
         {
             return View("AddRole");
         }
         [HttpPost]
-        public async Task <IActionResult> SaveRole(RoleViewModel roleViewModel)
+        public async Task<IActionResult> SaveRole(RoleViewModel roleViewModel)
         {
-            if(ModelState.IsValid) 
-            { 
-            IdentityRole role= new IdentityRole();
+            if (ModelState.IsValid)
+            {
+                IdentityRole role = new IdentityRole();
                 role.Name = roleViewModel.RoleName;
-               IdentityResult result= await roleManager.CreateAsync(role);
-                if (result.Succeeded==true)
+                IdentityResult result = await roleManager.CreateAsync(role);
+                if (result.Succeeded == true)
                 {
                     ViewBag.sucess = true;
                     return View("AddRole");
@@ -41,7 +41,7 @@ namespace ProjectMVC.Controllers
                     ModelState.AddModelError("", item.Description);
                 }
             }
-            return View("AddRole",roleViewModel);
+            return View("AddRole", roleViewModel);
         }
     }
 }

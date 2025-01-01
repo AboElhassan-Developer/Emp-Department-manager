@@ -12,8 +12,8 @@ using ProjectMVC.Models;
 namespace ProjectMVC.Migrations
 {
     [DbContext(typeof(MVCContext))]
-    [Migration("20241221192832_updt")]
-    partial class updt
+    [Migration("20250101094051_upProjectTab")]
+    partial class upProjectTab
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,9 +166,6 @@ namespace ProjectMVC.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -263,7 +260,6 @@ namespace ProjectMVC.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DepartmentID")
@@ -289,6 +285,43 @@ namespace ProjectMVC.Migrations
                     b.HasIndex("DepartmentID");
 
                     b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("ProjectMVC.Models.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -345,7 +378,7 @@ namespace ProjectMVC.Migrations
             modelBuilder.Entity("ProjectMVC.Models.Employee", b =>
                 {
                     b.HasOne("ProjectMVC.Models.Department", "Department")
-                        .WithMany("Emps")
+                        .WithMany("Employees")
                         .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -353,9 +386,20 @@ namespace ProjectMVC.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("ProjectMVC.Models.Project", b =>
+                {
+                    b.HasOne("ProjectMVC.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("ProjectMVC.Models.Department", b =>
                 {
-                    b.Navigation("Emps");
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

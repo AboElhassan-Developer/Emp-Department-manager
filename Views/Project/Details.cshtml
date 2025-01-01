@@ -1,0 +1,18 @@
+﻿@model Project
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<h1>Project Details</h1>
+
+<div>
+    <h3>Name: @Model.Name</h3>
+    <p><strong>Start Date:</strong> @Model.StartDate.ToShortDateString()</p>
+    <p><strong>End Date:</strong> @Model.EndDate?.ToShortDateString()</p>
+    <p><strong>Budget:</strong> @Model.Budget</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+</div>
+
+<a href="/Project/Edit/@Model.Id" class="btn btn-primary">Edit</a>
+<a href="/Project/Index" class="btn btn-secondary">Back to List</a>

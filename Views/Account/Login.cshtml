@@ -29,15 +29,17 @@
                 <span asp-validation-for="Password" class="text-warning"></span>
             </div>
             <div class="form-group form-check mb-3">
-                <input class="form-check-input" asp-for="RememberMe" style="background-color: #ffffff;" />
+                <input class="form-check-input" class="checkbox" asp-for="RememberMe" style="background-color: #ffffff;" />
                 <label class="form-check-label" asp-for="RememberMe">@Html.DisplayNameFor(model => model.RememberMe)</label>
             </div>
             <div class="form-group mb-3">
                 <button type="submit" class="btn btn-success w-100">Login</button>
             </div>
         </form>
+
         <div class="text-center">
-            <a asp-action="Register" class="text-light text-decoration-none">Create User</a>
+            <p>Don't have an Account?</p>
+            <a asp-action="Register" class="text-light text-decoration-none" >Create User</a>
         </div>
     </div>
 </div>

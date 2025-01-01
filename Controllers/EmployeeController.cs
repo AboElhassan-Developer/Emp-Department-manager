@@ -23,7 +23,7 @@ namespace ProjectMVC.Controllers
 
         public IActionResult EmpCardPartial(int id)
         {
-            return View("_EmpCard",EmployeeRepository.GetById(id));
+            return View("_EmpCard", EmployeeRepository.GetById(id));
         }
 
 
@@ -43,84 +43,111 @@ namespace ProjectMVC.Controllers
             return View("New");
         }
         [HttpPost]
-        public IActionResult SaveNew(Employee EmpFromRequest)
+        public IActionResult SaveNew(AddEmployeeModel EmpFromRequest)
         {
-            if(EmpFromRequest.Name != null && EmpFromRequest.Salary >= 6000)
+            if (EmpFromRequest.Name != null && EmpFromRequest.Salary >= 6000)
             {
                 //save
                 if (ModelState.IsValid)
                 {
-                    EmployeeRepository.Add(EmpFromRequest);
+                    var employee = new Employee
+                    {
+                        Address = EmpFromRequest.Address,
+                        DepartmentID = EmpFromRequest.DepartmentID,
+                        ImageURL = EmpFromRequest.ImageURL,
+                        JobTitle = EmpFromRequest.JobTitle,
+                        Name = EmpFromRequest.Name,
+                        Salary = EmpFromRequest.Salary
+                    };
+
+                    EmployeeRepository.Add(employee);
                     EmployeeRepository.Save();
                     return RedirectToAction("Index");
                 }
             }
             ViewData["DeptList"] = DepartmentRepository.GetAll();
-            return View("New",EmpFromRequest);
+            return View("New", EmpFromRequest);
         }
         public IActionResult Index()
         {
-            return View("Index",EmployeeRepository.GetAll());
+            return View("Index", EmployeeRepository.GetAll());
         }
-        //Handel Link
+        
+
+
         public IActionResult Edit(int id)
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Login", "Account"); 
+                return RedirectToAction("Login", "Account");
             }
-            Employee EmpModel=
-               EmployeeRepository.GetById(id);
-            List<Department> DepartmentList = DepartmentRepository.GetAll();
 
-            //......Create View Model Maping
-            
-
-                EmpWhthDeptListViewModel EmpViewModel = new EmpWhthDeptListViewModel();
-                EmpViewModel.Id = EmpModel.Id;
-                EmpViewModel.Name = EmpModel.Name;
-                EmpViewModel.Address = EmpModel.Address;
-                EmpViewModel.ImageURL = EmpModel.ImageURL;
-                EmpViewModel.JobTitle = EmpModel.JobTitle;
-                EmpViewModel.Salary = EmpModel.Salary;
-                EmpViewModel.DepartmentID = EmpModel.DepartmentID;
-
-                EmpViewModel.DeptList = DepartmentList;
-
-
-                return View("Edit", EmpViewModel);
-            
-        }
-        [HttpPost]
-        public IActionResult SaveEdit(EmpWhthDeptListViewModel EmpFromRequest,int id)
-        {
-            // if (EmpFromRequest.Name != null)
-            if (ModelState.IsValid)
+            // جلب بيانات الموظف
+            Employee EmpModel = EmployeeRepository.GetById(id);
+            if (EmpModel == null)
             {
-                Employee EmpFromDb = EmployeeRepository.GetById(id); //context.Employee.FirstOrDefault(e => e.Id == id);
-                EmpFromDb.Address= EmpFromRequest.Address;
-                EmpFromDb.Name= EmpFromRequest.Name;
-                EmpFromDb.Salary= EmpFromRequest.Salary;
-                EmpFromDb.JobTitle= EmpFromRequest.JobTitle;
-                EmpFromDb.ImageURL= EmpFromRequest.ImageURL;
-                EmpFromDb.DepartmentID= EmpFromRequest.DepartmentID;
-                EmpFromDb.Id= EmpFromRequest.Id;
-                EmployeeRepository.Update(EmpFromDb);
-                EmployeeRepository.Save();
-                //context.SaveChanges();
-                return RedirectToAction("Index");
+                return NotFound();
             }
-            //All Emp Date List <Depatment>
-            EmpFromRequest.DeptList = DepartmentRepository.GetAll();//context.Department.ToList();
-            return View("Edit",EmpFromRequest);
 
+            // إنشاء ViewModel وتعبئته بالبيانات
+            AddEmployeeModel EmpViewModel = new AddEmployeeModel
+            {
+                Id = EmpModel.Id,
+                Name = EmpModel.Name,
+                Address = EmpModel.Address,
+                ImageURL = EmpModel.ImageURL,
+                JobTitle = EmpModel.JobTitle,
+                Salary = EmpModel.Salary,
+                DepartmentID = EmpModel.DepartmentID
+            };
+
+            // إضافة قائمة الأقسام إلى ViewBag
+            ViewBag.DeptList = DepartmentRepository.GetAll();
+
+            return View("Edit", EmpViewModel);
         }
+
+
+
+        [HttpPost]
+        public IActionResult SaveEdit(AddEmployeeModel EmpFromRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                // إعادة تعبئة قائمة الأقسام في حالة وجود أخطاء
+                ViewBag.DeptList = DepartmentRepository.GetAll();
+                return View("Edit", EmpFromRequest);
+            }
+
+            // جلب بيانات الموظف من قاعدة البيانات
+            Employee EmpFromDb = EmployeeRepository.GetById(EmpFromRequest.Id);
+            if (EmpFromDb == null)
+            {
+                return NotFound();
+            }
+
+           
+            EmpFromDb.Name = EmpFromRequest.Name;
+            EmpFromDb.Address = EmpFromRequest.Address;
+            EmpFromDb.Salary = EmpFromRequest.Salary;
+            EmpFromDb.JobTitle = EmpFromRequest.JobTitle;
+            EmpFromDb.ImageURL = EmpFromRequest.ImageURL;
+            EmpFromDb.DepartmentID = EmpFromRequest.DepartmentID;
+
+            EmployeeRepository.Update(EmpFromDb);
+            EmployeeRepository.Save();
+
+            return RedirectToAction("Index");
+        }
+
+
+
         [HttpGet]
         public IActionResult Delete(int id)
         {
 
             //return View("Delete",EmployeeRepository.GetById(id));
-          
+
             Employee employee = EmployeeRepository.GetById(id);
 
             if (employee != null)
@@ -129,7 +156,7 @@ namespace ProjectMVC.Controllers
                 return View(employee); // عرض صفحة التأكيد
             }
 
-            // إذا لم يتم العثور على الموظف
+            
             return NotFound();
 
 
@@ -150,38 +177,38 @@ namespace ProjectMVC.Controllers
         }
 
 
-        public IActionResult Details(int id)
-        {
-            string msg = "Hellow From Action";
-            int temp = 50;
-            List<string>branches = new List<string>();
-            branches.Add("Assuit");
-            branches.Add("Alex");
-            branches.Add("Cairo");
-            ViewData["Msg"] = msg;
-            ViewData["Tem"] = temp;
-            ViewData["brach"]=branches;
-            Employee EmpModel = EmployeeRepository.GetById(id);//context.Employee.FirstOrDefault(e=>e.Id==id);
+        //public IActionResult Details(int id)
+        //{
+        //    string msg = "Hellow From Action";
+        //    int temp = 50;
+        //    List<string> branches = new List<string>();
+        //    branches.Add("Assuit");
+        //    branches.Add("Alex");
+        //    branches.Add("Cairo");
+        //    ViewData["Msg"] = msg;
+        //    ViewData["Tem"] = temp;
+        //    ViewData["brach"] = branches;
+        //    Employee EmpModel = EmployeeRepository.GetById(id);//context.Employee.FirstOrDefault(e=>e.Id==id);
 
-            return View("Details",EmpModel);
-        }
-        public IActionResult DetailsVM(int id)
-        {
-            Employee EmpModel=EmployeeRepository.GetById(id);
-            List<string> branches = new List<string>();
-            branches.Add("Assuit");
-            branches.Add("Alex");
-            branches.Add("Cairo");
-            EmpDeptColorTempMsgBranchViewModel EmpVM =
-                new EmpDeptColorTempMsgBranchViewModel();
-            EmpVM.EmpName = EmpModel.Name;
-            EmpVM.DeptName= EmpModel.Department.Name;
-            EmpVM.Color = "Red";
-            EmpVM.Temp = 12;
-            EmpVM.Msg = "Hello From VM";
-            EmpVM.Branches = branches;
+        //    return View("Details", EmpModel);
+        //}
+        //public IActionResult DetailsVM(int id)
+        //{
+        //    Employee EmpModel = EmployeeRepository.GetById(id);
+        //    List<string> branches = new List<string>();
+        //    branches.Add("Assuit");
+        //    branches.Add("Alex");
+        //    branches.Add("Cairo");
+        //    EmpDeptColorTempMsgBranchViewModel EmpVM =
+        //        new EmpDeptColorTempMsgBranchViewModel();
+        //    EmpVM.EmpName = EmpModel.Name;
+        //    EmpVM.DeptName = EmpModel.Department.Name;
+        //    EmpVM.Color = "Red";
+        //    EmpVM.Temp = 12;
+        //    EmpVM.Msg = "Hello From VM";
+        //    EmpVM.Branches = branches;
 
-            return View("DetailsVM", EmpVM);
-        }
+        //    return View("DetailsVM", EmpVM);
+        //}
     }
 }

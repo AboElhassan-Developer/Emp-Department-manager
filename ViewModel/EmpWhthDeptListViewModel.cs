@@ -16,5 +16,11 @@ namespace ProjectMVC.ViewModel
         [ForeignKey("Department")]
         public int DepartmentID { get; set; }
         public List<Department>DeptList { get; set; }
+
+        // إضافة خصائص المشروع
+        public string ProjectName { get; set; }  // اسم المشروع
+        public DateTime? StartDate { get; set; }  // تاريخ البدء
+        public DateTime? EndDate { get; set; }    // تاريخ الانتهاء
+       /* public decimal? Budget { get; set; }  */    // الميزانية
     }
 }

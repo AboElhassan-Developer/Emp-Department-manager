@@ -1,0 +1,10 @@
+﻿@model Department
+
+<h1>@Model.Name</h1>
+<h2>@Model.ManagerName</h2>
+<h2>@Model.Description</h2>
+
+<div style="margin-top: 20px;">
+    <a asp-action="Edit" asp-route-id="@Model.Id" style="font-size: 40px; font-weight: bold; margin-right: 20px;">Edit</a>
+    <a asp-action="Index" style="font-size: 40px; font-weight: bold;">Back To List</a>
+</div>

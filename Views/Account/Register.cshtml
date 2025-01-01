@@ -10,9 +10,16 @@
         <form asp-action="SaveRegister" method="post">
             <div asp-validation-summary="All" class="text-warning mb-3"></div>
             <div class="form-group mb-3">
+
                 <label asp-for="UserName" class="form-label"></label>
                 <input asp-for="UserName" class="form-control" style="background-color: #ffffff; color: #004d40;" placeholder="Enter your username" />
                 <span asp-validation-for="UserName" class="text-warning"></span>
+            </div>
+            <div class="form-group mb-3">
+
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" style="background-color: #ffffff; color: #004d40;" placeholder="Enter your Email" />
+                <span asp-validation-for="Email" class="text-warning"></span>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="Password" class="form-label"></label>
@@ -24,15 +31,13 @@
                 <input asp-for="ConFirmPassword" class="form-control" type="password" style="background-color: #ffffff; color: #004d40;" placeholder="Confirm your password" />
                 <span asp-validation-for="ConFirmPassword" class="text-warning"></span>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="Address" class="form-label"></label>
-                <input asp-for="Address" class="form-control" style="background-color: #ffffff; color: #004d40;" placeholder="Enter your address" />
-                <span asp-validation-for="Address" class="text-warning"></span>
-            </div>
+          
+            
             <div class="form-group mb-3">
                 <button type="submit" class="btn btn-success w-100 shadow-sm">Create</button>
             </div>
         </form>
+        <p>Do You have an Account? <a asp-action="Login"> Login Now!</a></p>
         <div class="text-center">
             <a asp-controller="Home" asp-action="Index" class="text-light text-decoration-none">Back to List</a>
         </div>

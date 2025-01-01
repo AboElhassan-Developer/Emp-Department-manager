@@ -7,7 +7,7 @@ namespace ProjectMVC.Repository
         MVCContext context;
         public DepartmentRepository(MVCContext _context)
         {
-            context = _context;//new MVCContext();
+            context = _context;
         }
         //CRUD
         public void Add(Department obj)

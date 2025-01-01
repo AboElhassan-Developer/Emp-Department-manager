@@ -1,14 +1,12 @@
-﻿@model EmpWhthDeptListViewModel
+﻿@model ProjectMVC.Models.AddEmployeeModel
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 style="color: skyblue" ;>Edit</h1>
 <form method="post" action="/Employee/SaveEdit/@Model.Id">
     <div>
-       @*  <label>Name</label> *@
-@*         <input type="text" value="@Model.Name" id="Name" name="Name" class="form form-control" />
- *@    
+      
       @Html.LabelFor(e=>e.Name)
        @Html.TextBoxFor(e=>e.Name,
        new{@class="form form-control"})
@@ -39,7 +37,7 @@
 @*         <input type="number" value="@Model.DepartmentID" id="DepartmentID" name="DepartmentID" class="form form-control" />
  *@   
         <select id="DepartmentID" name="DepartmentID" class="form form-control">
-            @foreach(var deptItem in Model.DeptList)
+            @foreach (var deptItem in ViewData["DeptList"] as List<Department>)
             {
                 if(Model.DepartmentID==deptItem.Id)
                 {

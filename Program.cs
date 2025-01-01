@@ -35,7 +35,7 @@ namespace ProjectMVC
             //Custom Service "Register"
             builder.Services.AddScoped<IDepartmentRepositroy,DepartmentRepository>();
             builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
-
+             builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

@@ -1,0 +1,40 @@
+﻿@model List<Project>
+
+@{
+    ViewData["Title"] = "Project Index";
+}
+
+<h1>Projects</h1>
+<a href="/Project/Add" class="btn btn-success">New Project</a>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Budget</th>
+            <th>Description</th>
+          @*   <th>Actions</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Id</td>
+                <td>@project.Name</td>
+                <td>@project.StartDate.ToShortDateString()</td>
+                <td>@project.EndDate?.ToShortDateString()</td>
+                <td>@project.Budget</td>
+                <td>@project.Description</td>
+                <td>
+                    <a href="/Project/Edit/@project.Id" class="btn btn-primary">Edit</a>
+                    <a href="/Project/Details/@project.Id" class="btn btn-info">Details</a>
+                    <a href="/Project/Delete/@project.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

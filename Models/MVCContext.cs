@@ -7,6 +7,7 @@ namespace ProjectMVC.Models
     {
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Department> Department { get; set; }
+        public DbSet<Project> Project { get; set; }
         public MVCContext():base()
         { 
 

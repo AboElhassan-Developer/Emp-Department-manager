@@ -1,6 +1,6 @@
 ﻿@model Employee
 
-
+<h1 style="color: skyblue" ;>Details</h1>
 <h1>@Model.Name</h1>
 
 <h2>@Model.Salary</h2>
@@ -9,4 +9,5 @@
 <h2>@Model.ImageURL</h2>
 <h2>@Model.JobTitle</h2>
 <h2>@Model.Department</h2>
+<a asp-action="Edit" asp-route-id="@Model.Id" style="font-size: 40px;margin-top: 20px; font-weight: bold;margin-right: 20px;">Edit</a>
 <a asp-action="Index" style="font-size: 40px; font-weight: bold;">Back To List</a>

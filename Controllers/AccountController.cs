@@ -34,9 +34,11 @@ namespace ProjectMVC.Controllers
             {
                 //Mapping
                 ApplicationUser appUser = new ApplicationUser();
-                appUser.Address=UserViewModel.Address;
+                appUser.Email = UserViewModel.Email;
+                //appUser.Address=UserViewModel.Address;
                 appUser.UserName=UserViewModel.UserName;
                 appUser.PasswordHash = UserViewModel.Password;
+               
 
 
                 //SaveDatabase

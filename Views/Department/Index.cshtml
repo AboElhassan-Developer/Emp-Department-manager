@@ -20,8 +20,15 @@
             <td>@item.Name</td>
             <td>@item.Description</td>
             <td>
+                <a href="/Department/Edit/@item.Id">Edit</a>
+            </td>
+            <td>
+                <a href="/Department/Details/@item.Id">Details</a>
+            </td>
+            <td>
                 <a href="/Department/Delete/@item.Id" class="btn btn-danger">Delete</a>
             </td>
+            
         </tr>
     }
 </table>
